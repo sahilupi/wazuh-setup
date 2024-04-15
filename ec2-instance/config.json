@@ -1,0 +1,75 @@
+{
+    "agent": {
+        "metrics_collection_interval": 10,
+        "run_as_user": "root"
+    },
+    "logs": {
+                "logs_collected": {
+                        "files": {
+                                "collect_list": [
+                                        {
+                                                "file_path": "/tmp/user_data_output.log",
+                                                "log_group_name": "wazuh-dashboard-logs",
+                                                "log_stream_name": "{instance_id}",
+                                                "retention_in_days": 3
+                                        }
+                                ]
+                        }
+                }
+        },
+    "metrics": {
+        "append_dimensions": {
+            "AutoScalingGroupName": "$${aws:AutoScalingGroupName}",
+            "ImageId": "$${aws:ImageId}",
+            "InstanceId": "$${aws:InstanceId}",
+            "InstanceType": "$${aws:InstanceType}"
+        },
+        "metrics_collected": {
+            "disk": {
+                "measurement": [
+                    "used_percent",
+                    "disk_used",
+                    "disk_free"
+                ],
+                "metrics_collection_interval": 60,
+                "resources": ["/"],
+                "totalcpu": false
+            },
+            "diskio": {
+                "measurement": [
+                    "io_time",
+                    "read_time",
+                    "write_time",
+                    "diskio_iops_in_progress",
+                    "diskio_writes",
+                    "diskio_reads"
+                ],
+                "metrics_collection_interval": 10,
+                "resources": ["*"]
+            },
+            "mem": {
+                "measurement": [
+                    "mem_used_percent",
+                    "mem_available",
+                    "mem_used",
+                    "mem_cached",
+                    "mem_free"
+                ],
+                "metrics_collection_interval": 60
+            },
+            "statsd": {
+                "metrics_aggregation_interval": 10,
+                "metrics_collection_interval": 10,
+                "service_address": ":8125"
+            },
+            "swap": {
+                "measurement": [
+                    "swap_free",
+                    "swap_used",
+                    "swap_used_percent"
+                ],
+                "metrics_collection_interval": 60
+            }
+        }
+    }
+}
